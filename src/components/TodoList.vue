@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     deleteTodo (todo) {
-      window.sweetalert({
+      window.sweetAlert({
         title: 'Are you sure?',
         text: 'This To-Do will be permanently deleted!',
         type: 'warning',
@@ -29,13 +29,13 @@ export default {
       () => {
         const todoIndex = this.todos.indexOf(todo)
         this.todos.splice(todoIndex, 1)
-        window.sweetalert('Deleted!', 'Your To-Do has been deleted.', 'success')
+        window.sweetAlert('Deleted!', 'Your To-Do has been deleted.', 'success')
       })
     },
     completeTodo (todo) {
       const todoIndex = this.todos.indexOf(todo)
       this.todos[todoIndex].done = true
-      window.sweetalert('Success!', 'To-Do completed!', 'success')
+      window.sweetAlert('Success!', 'To-Do completed!', 'success')
     }
   }
 }

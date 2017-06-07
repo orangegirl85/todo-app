@@ -45,7 +45,7 @@ export default {
   methods: {
     createTodo (newTodo) {
       this.todos.push(newTodo)
-      window.sweetalert('Success!', 'To-Do created!', 'success')
+      window.sweetAlert('Success!', 'To-Do created!', 'success')
     }
   }
 }
