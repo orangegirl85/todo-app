@@ -13,21 +13,63 @@ app.use(logger('dev'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-require('./server/routes')(app)
-app.get('*', (req, res) => {
-    const store = {aa: 'test'}
+const getCurrentTodo = () => {
+    return Promise.resolve([{
+        title: 'Lala 1',
+        id: 1,
+        project: 'Lsass',
+        done: false
+    }])
+}
 
-    renderer.renderToString(
-        {url: req.url, store},
-        (err, html) => {
-            if (err) {
-                console.log(err)
-                return res.sendStatus(500)
-            }
-            res.send(index.replace('<div id=app></div>', html))
-        }
-    )
+require('./server/routes')(app)
+
+app.get('/todo', (req, res) => {
+    getCurrentTodo().then((todo) => {
+        res.json(todo)
+    }, (err) => {
+        console.error(err)
+        res.sendStatus(500)
+    })
 })
+
+app.get('*', (req, res) => {
+    getCurrentTodo().then((todo) => {
+        const store = { todo }
+
+        renderer.renderToString(
+            { url: req.url, store },
+            (err, html) => {
+                if (err) {
+                    console.log(err)
+                    return res.sendStatus(500)
+                }
+                // console.log(html)
+                res.send(index.replace('<div id=app></div>', html))
+            }
+        )
+    })
+})
+
+// app.get('*', (req, res) => {
+//     // const store = {todos: [{
+//     //     title: 'Todo A',
+//     //     project: 'Project A',
+//     //     done: false
+//     // }]}
+//
+//     renderer.renderToString(
+//         {url: req.url},
+//         (err, html) => {
+//             if (err) {
+//                 console.log(err)
+//                 return res.sendStatus(500)
+//             }
+//             console.log(html)
+//             res.send(index.replace('<div id=app></div>', html))
+//         }
+//     )
+// })
 
 
 // const getCurrentUser = () => {
