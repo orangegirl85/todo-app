@@ -2,16 +2,16 @@ import Vue from 'vue'
 import axios from 'axios'
 
 const store = {
-  todo: null
+  todos: null
 }
 
 const API = {
   fetchTodo () {
-    if (store.todo) return
-    axios.get('http://localhost:8080/me')
+    if (store.todos) return
+    axios.get('http://localhost:8080/api/todos')
       .then((res) => {
-        store.todo = res.data
-        console.log(store.todo)
+        store.todos = res.data
+        // console.log(store.todo)
       })
   }
 }

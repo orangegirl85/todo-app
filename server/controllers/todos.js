@@ -1,6 +1,12 @@
 const Todo = require('../models').Todo;
 const TodoItem = require('../models').TodoItem;
 
+// const fs = require('fs')
+// const path = require('path')
+// const code = fs.readFileSync(path.join(__dirname, './dist/server.js'), 'utf8')
+// const renderer = require('vue-server-renderer').createBundleRenderer(code)
+// const index = fs.readFileSync(path.join(__dirname, './dist/index.html'), 'utf8')
+
 module.exports = {
   create(req, res) {
     return Todo
@@ -24,7 +30,22 @@ module.exports = {
          // [{ model: TodoItem, as: 'todoItems' }, 'createdAt', 'ASC'],
         ],
       })
-      .then((todos) => res.status(200).send(todos))
+      .then((todos) => {
+        res.status(200).send(todos)
+        //   const store = { todo: todos }
+        //
+        //   renderer.renderToString(
+        //       { url: req.url, store },
+        //       (err, html) => {
+        //           if (err) {
+        //               console.log(err)
+        //               return res.sendStatus(500)
+        //           }
+        //           // console.log(html)
+        //           res.send(index.replace('<div id=app></div>', html))
+        //       }
+        //   )
+      })
       .catch((error) => res.status(400).send(error));
   },
 

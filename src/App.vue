@@ -1,11 +1,11 @@
 <template>
   <div id="app">
     <h1 class="ui dividing centered header">Vue.js Todo App</h1>
-    <ul v-if="store.todo && store.todo.length">
+    <ul v-if="store.todos && store.todos.length">
       <span>aa</span>
-      <li v-for="tod of store.todo">
-        <p><strong>{{tod.title}}</strong></p>
-        <p>{{tod.project}}</p>
+      <li v-for="todo of store.todos">
+        <p><strong>{{todo.title}}</strong></p>
+        <p>{{todo.project}}</p>
       </li>
      </ul>
   </div>
@@ -21,8 +21,6 @@ export default {
   name: 'app',
   created () {
     this.API.fetchTodo()
-    // console.log('created')
-    // this.fetchTodos()
   },
   methods: {
     createTodo (newTodo) {
