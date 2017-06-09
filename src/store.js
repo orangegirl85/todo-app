@@ -6,7 +6,7 @@ const store = {
 }
 
 const API = {
-  fetchTodo () {
+  fetchTodos () {
     if (store.todos) return
     axios.get('http://localhost:8080/api/todos')
       .then((res) => {
