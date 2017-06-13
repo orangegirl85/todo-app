@@ -15,6 +15,8 @@ app.use(logger('dev'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/static', express.static(path.join(__dirname, './dist/static')))
+
 
 require('./server/routes')(app)
 
@@ -30,7 +32,6 @@ app.get('*', (req, res) => {
                     console.log(err)
                     return res.sendStatus(500)
                 }
-                // console.log(html)
                 res.send(index.replace('<div id=app></div>', html))
             }
         )

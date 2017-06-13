@@ -27,7 +27,7 @@
           <input type='text' v-model="todo.project" >
         </div>
         <div class='ui two button attached buttons'>
-          <button class='ui basic blue button' v-on:click="hideForm">
+          <button class='ui basic blue button' v-on:click="hideForm(todo)">
             Close X
           </button>
         </div>
@@ -52,6 +52,10 @@
     },
     methods: {
       completeTodo (todo) {
+        const title = todo.title
+        const project = todo.project
+        const done = true
+        this.API.putTodo(todo.id, {title, project, done})
         this.$emit('complete-todo', todo)
       },
       deleteTodo (todo) {
@@ -60,7 +64,10 @@
       showForm () {
         this.isEditing = true
       },
-      hideForm () {
+      hideForm (todo) {
+        const title = todo.title
+        const project = todo.project
+        this.API.putTodo(todo.id, {title, project})
         this.isEditing = false
       }
     }

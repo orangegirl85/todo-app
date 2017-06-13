@@ -27,14 +27,15 @@ export default {
         closeOnConfirm: false
       },
       () => {
-        const todoIndex = this.todos.indexOf(todo)
-        this.todos.splice(todoIndex, 1)
+        // const todoIndex = this.todos.indexOf(todo)
+        // this.todos.splice(todoIndex, 1)
+        this.API.deleteTodo(todo.id)
         window.sweetAlert('Deleted!', 'Your To-Do has been deleted.', 'success')
       })
     },
     completeTodo (todo) {
-      const todoIndex = this.todos.indexOf(todo)
-      this.todos[todoIndex].done = true
+      // const todoIndex = this.todos.indexOf(todo)
+      // this.todos[todoIndex].done = true
       window.sweetAlert('Success!', 'To-Do completed!', 'success')
     }
   }
