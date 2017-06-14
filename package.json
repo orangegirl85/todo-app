@@ -5,6 +5,7 @@
   "author": "acoshift <acoshift@gmail.com>",
   "private": true,
   "scripts": {
+    "start": "node server.js",
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"

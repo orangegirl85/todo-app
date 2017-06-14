@@ -17,7 +17,6 @@ const API = {
     axios.get('http://localhost:8080/api/todos')
       .then((res) => {
         store.todos = res.data
-        // console.log(store.todo)
       })
   },
   postTodo (postBody) {
