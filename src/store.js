@@ -14,19 +14,19 @@ const store = {
 const API = {
   fetchTodos () {
     if (store.todos) return
-    axios.get('http://localhost:8080/api/todos')
+    axios.get(process.env.URL + 'api/todos')
       .then((res) => {
         store.todos = res.data
       })
   },
   postTodo (postBody) {
-    axios.post('http://localhost:8080/api/todos', postBody).then(response => router.go(router.currentRoute))
+    axios.post(process.env.URL + 'api/todos', postBody).then(response => router.go(router.currentRoute))
   },
   putTodo (id, putBody) {
-    axios.put('http://localhost:8080/api/todos/' + id, putBody).then(response => router.go(router.currentRoute))
+    axios.put(process.env.URL + 'api/todos/' + id, putBody).then(response => router.go(router.currentRoute))
   },
   deleteTodo (id) {
-    axios.delete('http://localhost:8080/api/todos/' + id).then(response => router.go(router.currentRoute))
+    axios.delete(process.env.URL + 'api/todos/' + id).then(response => router.go(router.currentRoute))
   }
 }
 

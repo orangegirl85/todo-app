@@ -5,9 +5,10 @@
   "author": "acoshift <acoshift@gmail.com>",
   "private": true,
   "scripts": {
-    "start": "node server.js",
+    "start_prod": "NODE_ENV=production node server.js",
+    "start_dev": "NODE_ENV=development node server.js",
     "dev": "node build/dev-server.js",
-    "build": "node build/build.js",
+    "prod": "node build/build.js",
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {

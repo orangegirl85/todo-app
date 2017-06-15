@@ -1,4 +1,5 @@
 require('./check-versions')()
+require('shelljs/global')
 var config = require('../config')
 if (!process.env.NODE_ENV) process.env.NODE_ENV = JSON.parse(config.dev.env.NODE_ENV)
 var path = require('path')
@@ -7,6 +8,8 @@ var webpack = require('webpack')
 var opn = require('opn')
 var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.conf')
+const ora = require('ora')
+const serverConfig = require('./webpack.serv.conf')
 
 // default port where dev server listens for incoming traffic
 var port = process.env.PORT || config.dev.port
@@ -25,14 +28,14 @@ var devMiddleware = require('webpack-dev-middleware')(compiler, {
   }
 })
 
-var hotMiddleware = require('webpack-hot-middleware')(compiler)
-// force page reload when html-webpack-plugin template changes
-compiler.plugin('compilation', function (compilation) {
-  compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-    hotMiddleware.publish({ action: 'reload' })
-    cb()
-  })
-})
+// var hotMiddleware = require('webpack-hot-middleware')(compiler)
+// // force page reload when html-webpack-plugin template changes
+// compiler.plugin('compilation', function (compilation) {
+//   compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
+//     hotMiddleware.publish({ action: 'reload' })
+//     cb()
+//   })
+// })
 
 // proxy api requests
 Object.keys(proxyTable).forEach(function (context) {
@@ -51,22 +54,52 @@ app.use(devMiddleware)
 
 // enable hot-reload and state-preserving
 // compilation error display
-app.use(hotMiddleware)
+// app.use(hotMiddleware)
+
+const spinner = ora('building for development...')
+spinner.start()
 
 // serve pure static assets
 var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsSubDirectory)
 app.use(staticPath, express.static('./static'))
 
-module.exports = app.listen(port, function (err) {
-  if (err) {
-    console.log(err)
-    return
-  }
-  var uri = 'http://localhost:' + port
-  console.log('Listening at ' + uri + '\n')
+rm('-rf', staticPath)
+mkdir('-p', staticPath)
+cp('-R', 'static/*', staticPath)
 
-  // when env is testing, don't need open it
-  if (process.env.NODE_ENV !== 'testing') {
-    opn(uri)
-  }
+webpack(webpackConfig, function (err, stats) {
+    if (err) throw err
+    process.stdout.write(stats.toString({
+            colors: true,
+            modules: false,
+            children: false,
+            chunks: false,
+            chunkModules: false
+        }) + '\n')
+
+    webpack(serverConfig, function (err, stats) {
+        spinner.stop()
+        if (err) throw err
+        process.stdout.write(stats.toString({
+                colors: true,
+                modules: false,
+                children: false,
+                chunks: false,
+                chunkModules: false
+            }) + '\n')
+    })
 })
+
+// module.exports = app.listen(port, function (err) {
+//   if (err) {
+//     console.log(err)
+//     return
+//   }
+//   var uri = 'http://localhost:' + port
+//   console.log('Listening at ' + uri + '\n')
+//
+//   // when env is testing, don't need open it
+//   if (process.env.NODE_ENV !== 'testing') {
+//     opn(uri)
+//   }
+// })
