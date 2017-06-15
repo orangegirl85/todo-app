@@ -36,4 +36,8 @@ app.get('*', (req, res) => {
     })
 })
 
+app.on('listening',function(){
+    console.log('ok, server is running');
+});
+
 app.listen(8080)
